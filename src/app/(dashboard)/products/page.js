@@ -169,7 +169,9 @@ export default function ProductsPage() {
                       </div>
                       <div className="mt-3 flex gap-2 border-t border-slate-100 pt-3">
                         <MobAction onClick={() => openMove(p, "in")} color="emerald"><ArrowDownToLine size={17} /> Aaya</MobAction>
-                        <MobAction onClick={() => openMove(p, "out")} color="amber"><ArrowUpFromLine size={17} /> Nikla</MobAction>
+                        {isAdmin && (
+                          <MobAction onClick={() => openMove(p, "out")} color="amber"><ArrowUpFromLine size={17} /> Nikla</MobAction>
+                        )}
                         <MobAction onClick={() => openEdit(p)} color="slate"><Pencil size={17} /> Edit</MobAction>
                         {isAdmin && (
                           <MobAction onClick={() => setDelTarget(p)} color="red"><Trash2 size={17} /> Delete</MobAction>
@@ -212,7 +214,9 @@ export default function ProductsPage() {
                             <td className="px-4 py-3">
                               <div className="flex justify-end gap-1">
                                 <IconBtn onClick={() => openMove(p, "in")} title="Maal aaya" color="emerald"><ArrowDownToLine size={16} /></IconBtn>
-                                <IconBtn onClick={() => openMove(p, "out")} title="Maal nikala" color="amber"><ArrowUpFromLine size={16} /></IconBtn>
+                                {isAdmin && (
+                                  <IconBtn onClick={() => openMove(p, "out")} title="Maal nikala" color="amber"><ArrowUpFromLine size={16} /></IconBtn>
+                                )}
                                 <IconBtn onClick={() => openEdit(p)} title="Edit" color="slate"><Pencil size={16} /></IconBtn>
                                 {isAdmin && (
                                   <IconBtn onClick={() => setDelTarget(p)} title="Delete" color="red"><Trash2 size={16} /></IconBtn>
