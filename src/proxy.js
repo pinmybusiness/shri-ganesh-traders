@@ -52,7 +52,8 @@ export async function proxy(request) {
 
 export const config = {
   matcher: [
-    // API, static files, aur images chhod ke baaki sab pages pe chale
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    // Pages pe chale; PWA files (sw.js, manifest.json, icons) + static/images chhod do.
+    // Warna manifest/sw login pe redirect ho jaate hain -> PWA install toot jata hai.
+    "/((?!_next/static|_next/image|favicon.ico|sw.js|manifest.json|icons|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|json|txt|webmanifest)$).*)",
   ],
 };
