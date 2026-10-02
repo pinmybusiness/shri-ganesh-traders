@@ -23,7 +23,7 @@ export const metadata = {
   title: "Shri Ganesh Enterprises",
   description: "Stock, Billing aur Udhari Khata - Building Material Shop",
   manifest: "/manifest.webmanifest",
-  icons: { icon: "/icon.png", apple: "/icon.png" },
+  icons: { apple: "/icons/icon-192.png" },
   appleWebApp: { capable: true, title: "SG Traders", statusBarStyle: "default" },
 };
 
