@@ -21,13 +21,15 @@ create policy "read own profile" on profiles
   for select to authenticated using (auth.uid() = id);
 
 -- Naya user banega to auto profile (default = staff)
-create or replace function handle_new_user()
+-- NOTE: search_path + public. zaroori hai, warna "Database error creating new user" aata hai.
+create or replace function public.handle_new_user()
 returns trigger
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
-  insert into profiles (id, name) values (new.id, new.email)
+  insert into public.profiles (id, name) values (new.id, new.email)
   on conflict (id) do nothing;
   return new;
 end;
@@ -36,7 +38,7 @@ $$;
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
-  for each row execute function handle_new_user();
+  for each row execute function public.handle_new_user();
 
 -- Jo users pehle se hain unka profile bana do
 insert into profiles (id, name)
