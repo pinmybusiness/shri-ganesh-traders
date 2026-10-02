@@ -1,6 +1,5 @@
 import { Plus_Jakarta_Sans, Noto_Sans_Devanagari } from "next/font/google";
 import "./globals.css";
-import RegisterSW from "@/components/RegisterSW";
 
 // Modern & clean - poore app ka main font (Hinglish + English dono)
 const jakarta = Plus_Jakarta_Sans({
@@ -22,7 +21,7 @@ const devanagari = Noto_Sans_Devanagari({
 export const metadata = {
   title: "Shri Ganesh Enterprises",
   description: "Stock, Billing aur Udhari Khata - Building Material Shop",
-  manifest: "/manifest.webmanifest",
+  manifest: "/manifest.json",
   icons: { apple: "/icons/icon-192.png" },
   appleWebApp: { capable: true, title: "SG Traders", statusBarStyle: "default" },
 };
@@ -38,7 +37,20 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${jakarta.variable} ${devanagari.variable} h-full antialiased`}>
       <body className="min-h-full text-slate-900">
         {children}
-        <RegisterSW />
+        {/* Service worker register (PWA install + offline) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function () {
+                  navigator.serviceWorker.register('/sw.js').catch(function (e) {
+                    console.log('SW registration failed:', e);
+                  });
+                });
+              }
+            `,
+          }}
+        />
       </body>
     </html>
   );
