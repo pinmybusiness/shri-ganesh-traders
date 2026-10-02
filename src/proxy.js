@@ -31,17 +31,21 @@ export async function proxy(request) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isAuthPage = request.nextUrl.pathname.startsWith("/login");
+  const path = request.nextUrl.pathname;
+  const isLogin = path.startsWith("/login");
+  const isUpdatePw = path.startsWith("/update-password"); // reset-password link yahan khulti hai
+  const isPublic = isLogin || isUpdatePw;
 
   // Login nahi hai aur protected page khol raha hai -> login pe bhejo
-  if (!user && !isAuthPage) {
+  if (!user && !isPublic) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
   // Login hai aur /login khol raha hai -> dashboard pe bhejo
-  if (user && isAuthPage) {
+  // (update-password pe nahi, warna reset ke beech me kick ho jaye)
+  if (user && isLogin) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);
