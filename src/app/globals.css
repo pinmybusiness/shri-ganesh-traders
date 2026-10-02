@@ -1,26 +1,214 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Warm "paper" background - elegant, bill/dukaan vibe */
+  --background: #f7f6f3;
+  --foreground: #1e293b;
+  --card: #ffffff;
+  --accent: #059669; /* emerald-600 */
+  --accent-ring: rgba(16, 185, 129, 0.55);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-jakarta);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  /* Halka warm gradient - depth aata hai par theme light hi rehti hai */
+  background-image:
+    radial-gradient(1100px 550px at 100% -8%, rgba(16, 185, 129, 0.05), transparent 60%),
+    radial-gradient(850px 480px at -10% 0%, rgba(245, 158, 11, 0.035), transparent 55%);
+  background-attachment: fixed;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Clickable cheezon pe hand cursor (buttons pe by default nahi aata) */
+button:not(:disabled),
+a[href],
+[role="button"],
+label[for],
+summary,
+select {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* Keyboard focus - saaf dikhe, accessible (mouse click pe nahi aata) */
+:where(a, button, [role="button"], summary):focus-visible {
+  outline: 2px solid var(--accent-ring);
+  outline-offset: 2px;
+  border-radius: 0.6rem;
+}
+
+/* Paisa/number seedha align ho - premium feel */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Bade headings + brand naam - modern bold sans (koi serif nahi) */
+.display {
+  font-family: var(--font-jakarta), ui-sans-serif, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Hindi text - crisp Devanagari */
+.hindi {
+  font-family: var(--font-devanagari), var(--font-jakarta), sans-serif;
+}
+
+/* ---- Animations (halke, premium) ---- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes overlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-in {
+  animation: fadeInUp 0.3s ease-out both;
+}
+.animate-scale-in {
+  animation: scaleIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-overlay {
+  animation: overlayIn 0.2s ease-out both;
+}
+
+/* Shimmer sweep - loading skeletons pe */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), transparent);
+  animation: shimmer 1.4s infinite;
+}
+
+/* Desktop pe patla, saaf scrollbar */
+@media (pointer: fine) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+    border: 2px solid var(--background);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
+
+/* Jinko motion se dikkat ho - sab band */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print: A4 page, sirf bill dikhe, navbar/buttons chhup jaayein */
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #ffffff;
+    background-image: none;
+  }
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+  /* Sheet ab @page (A4) fill karega - apna margin/padding/shadow hata do */
+  .print-area {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+  }
+  /* Color/tint bhi print ho (bar, boxes) - B&W me bhi structure crisp rahe */
+  .print-area,
+  .print-area * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  /* Mobile ka zoom-out (BillFit) print pe hata do - full A4 */
+  .bill-fit-outer {
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .bill-fit-inner {
+    transform: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
 }
