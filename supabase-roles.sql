@@ -49,7 +49,7 @@ on conflict (id) do nothing;
 -- ⬇️ ADMIN set karo: yahan apna (malik ka) login email daalo
 -- ============================================================
 update profiles set role = 'admin'
-where id = (select id from auth.users where email = 'ganeshenterprisessmp83@gmail.com');
+where id = (select id from auth.users where email = 'ganeshraj2580@gmail.com');
 
 -- Baaki sab 'staff' rahenge (default).
 -- Staff ka naya login Supabase > Authentication > Add user se banao

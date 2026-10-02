@@ -13,7 +13,7 @@ export const BUSINESS = {
   tagline: "Wholesale & Retail Dealers in Paint, Sand, Stone Chips, Iron Rods, Cement etc.",
 
   addressHindi: "चकजाफर, गोविन्दपुर, खजुरी, कुशवाहा मार्केट, समस्तीपुर",
-  address: "Chakjafar, Govindpur, Khajuri, Kushwaha Market, Samastipur (Bihar)",
+  address: "Chakjafar, Govindpur, Khajuri, Kushwaha Market, Samastipur - 848301 (Bihar)",
 
   mobiles: ["9472019413", "7903420173"],
 
